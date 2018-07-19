@@ -4,10 +4,10 @@ import (
 	"fmt"
 )
 
-var table *LookupTable
+var table *lookupTable
 
 func init() {
-	table = NewLookupTable()
+	table = newLookupTable()
 }
 
 func RankClass(rank int32) int32 {
@@ -57,11 +57,11 @@ func five(cards ...Card) int32 {
 	if cards[0]&cards[1]&cards[2]&cards[3]&cards[4]&0xF000 != 0 {
 		handOR := (cards[0] | cards[1] | cards[2] | cards[3] | cards[4]) >> 16
 		prime := primeProductFromRankBits(int32(handOR))
-		return table.FlushLookup[prime]
+		return table.flushLookup[prime]
 	}
 
 	prime := primeProductFromHand(cards)
-	return table.UnsuitedLookup[prime]
+	return table.unsuitedLookup[prime]
 }
 
 func six(cards ...Card) int32 {

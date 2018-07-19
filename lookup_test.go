@@ -22,9 +22,9 @@ func TestLexographicallyNextBitSequence(t *testing.T) {
 }
 
 func TestFlushLookup(t *testing.T) {
-	table := NewLookupTable()
+	table := newLookupTable()
 
-	assert.Len(t, table.FlushLookup, 1287)
+	assert.Len(t, table.flushLookup, 1287)
 	data1 := map[int32]int32{
 		1551891: 359,
 		1469973: 435,
@@ -53,10 +53,10 @@ func TestFlushLookup(t *testing.T) {
 		6290999: 388,
 	}
 	for key := range data1 {
-		assert.Equal(t, data1[key], table.FlushLookup[key])
+		assert.Equal(t, data1[key], table.flushLookup[key])
 	}
 
-	assert.Len(t, table.UnsuitedLookup, 6175)
+	assert.Len(t, table.unsuitedLookup, 6175)
 	data2 := map[int32]int32{
 		1514071:  3097,
 		4347:     2378,
@@ -85,6 +85,6 @@ func TestFlushLookup(t *testing.T) {
 		4446:     5939,
 	}
 	for key := range data2 {
-		assert.Equal(t, data2[key], table.UnsuitedLookup[key])
+		assert.Equal(t, data2[key], table.unsuitedLookup[key])
 	}
 }

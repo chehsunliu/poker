@@ -36,15 +36,15 @@ var rankClassToString = map[int32]string{
 	9: "High Card",
 }
 
-type LookupTable struct {
-	FlushLookup    map[int32]int32
-	UnsuitedLookup map[int32]int32
+type lookupTable struct {
+	flushLookup    map[int32]int32
+	unsuitedLookup map[int32]int32
 }
 
-func NewLookupTable() *LookupTable {
-	table := &LookupTable{}
-	table.FlushLookup = map[int32]int32{}
-	table.UnsuitedLookup = map[int32]int32{}
+func newLookupTable() *lookupTable {
+	table := &lookupTable{}
+	table.flushLookup = map[int32]int32{}
+	table.unsuitedLookup = map[int32]int32{}
 
 	table.flushes()
 	table.multiples()
@@ -52,7 +52,7 @@ func NewLookupTable() *LookupTable {
 	return table
 }
 
-func (table *LookupTable) flushes() {
+func (table *lookupTable) flushes() {
 	// straight flushes in rank order
 	straightFlushes := []int32{
 		7936, // 0b1111100000000 royal flush
@@ -92,38 +92,38 @@ func (table *LookupTable) flushes() {
 	var rank int32 = 1
 	for _, sf := range straightFlushes {
 		primeProduct := primeProductFromRankBits(sf)
-		table.FlushLookup[primeProduct] = rank
+		table.flushLookup[primeProduct] = rank
 		rank++
 	}
 
 	rank = maxFullHouse + 1
 	for _, f := range flushes {
 		primeProduct := primeProductFromRankBits(f)
-		table.FlushLookup[primeProduct] = rank
+		table.flushLookup[primeProduct] = rank
 		rank++
 	}
 
 	table.straightAndHighCards(straightFlushes, flushes)
 }
 
-func (table *LookupTable) straightAndHighCards(straights, highcards []int32) {
+func (table *lookupTable) straightAndHighCards(straights, highcards []int32) {
 	var rank int32 = maxFlush + 1
 
 	for _, s := range straights {
 		primeProduct := primeProductFromRankBits(s)
-		table.UnsuitedLookup[primeProduct] = rank
+		table.unsuitedLookup[primeProduct] = rank
 		rank++
 	}
 
 	rank = maxPair + 1
 	for _, h := range highcards {
 		primeProduct := primeProductFromRankBits(h)
-		table.UnsuitedLookup[primeProduct] = rank
+		table.unsuitedLookup[primeProduct] = rank
 		rank++
 	}
 }
 
-func (table *LookupTable) multiples() {
+func (table *lookupTable) multiples() {
 	backwardRanks := make([]int32, len(intRanks))
 	for i := range intRanks {
 		backwardRanks[13-i-1] = intRanks[i]
@@ -145,7 +145,7 @@ func (table *LookupTable) multiples() {
 
 		for _, k := range kickers {
 			product := primes[i] * primes[i] * primes[i] * primes[i] * primes[k]
-			table.UnsuitedLookup[product] = rank
+			table.unsuitedLookup[product] = rank
 			rank++
 		}
 	}
@@ -166,7 +166,7 @@ func (table *LookupTable) multiples() {
 
 		for _, pr := range pairRanks {
 			product := primes[i] * primes[i] * primes[i] * primes[pr] * primes[pr]
-			table.UnsuitedLookup[product] = rank
+			table.unsuitedLookup[product] = rank
 			rank++
 		}
 	}
@@ -189,7 +189,7 @@ func (table *LookupTable) multiples() {
 			for k := j + 1; k < len(kickers); k++ {
 				c1, c2 := kickers[j], kickers[k]
 				product := primes[i] * primes[i] * primes[i] * primes[c1] * primes[c2]
-				table.UnsuitedLookup[product] = rank
+				table.unsuitedLookup[product] = rank
 				rank++
 			}
 		}
@@ -221,7 +221,7 @@ func (table *LookupTable) multiples() {
 
 			for _, kicker := range kickers {
 				product := primes[pair1] * primes[pair1] * primes[pair2] * primes[pair2] * primes[kicker]
-				table.UnsuitedLookup[product] = rank
+				table.unsuitedLookup[product] = rank
 				rank++
 			}
 		}
@@ -246,7 +246,7 @@ func (table *LookupTable) multiples() {
 				for k := j + 1; k < len(kickers); k++ {
 					k1, k2, k3 := kickers[i], kickers[j], kickers[k]
 					product := primes[pairRank] * primes[pairRank] * primes[k1] * primes[k2] * primes[k3]
-					table.UnsuitedLookup[product] = rank
+					table.unsuitedLookup[product] = rank
 					rank++
 				}
 			}
