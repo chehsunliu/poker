@@ -7,25 +7,25 @@ import (
 )
 
 func TestLexographicallyNextBitSequence(t *testing.T) {
-	n1 := 31
+	var n1 int32 = 31
 	n2 := lexographicallyNextBitSequence(n1)
 	n3 := lexographicallyNextBitSequence(n2)
 	n4 := lexographicallyNextBitSequence(n3)
 	n5 := lexographicallyNextBitSequence(n4)
 	n6 := lexographicallyNextBitSequence(n5)
 
-	assert.Equal(t, 47, n2)
-	assert.Equal(t, 55, n3)
-	assert.Equal(t, 59, n4)
-	assert.Equal(t, 61, n5)
-	assert.Equal(t, 62, n6)
+	assert.Equal(t, 47, int(n2))
+	assert.Equal(t, 55, int(n3))
+	assert.Equal(t, 59, int(n4))
+	assert.Equal(t, 61, int(n5))
+	assert.Equal(t, 62, int(n6))
 }
 
 func TestFlushLookup(t *testing.T) {
 	table := NewLookupTable()
 
 	assert.Len(t, table.FlushLookup, 1287)
-	data1 := map[int]int{
+	data1 := map[int32]int32{
 		1551891: 359,
 		1469973: 435,
 		128535:  775,
@@ -57,7 +57,7 @@ func TestFlushLookup(t *testing.T) {
 	}
 
 	assert.Len(t, table.UnsuitedLookup, 6175)
-	data2 := map[int]int{
+	data2 := map[int32]int32{
 		1514071:  3097,
 		4347:     2378,
 		4350:     5689,

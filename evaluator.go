@@ -10,8 +10,8 @@ func init() {
 	table = NewLookupTable()
 }
 
-func RankClass(rank int) int {
-	targets := [...]int{
+func RankClass(rank int32) int32 {
+	targets := [...]int32{
 		maxStraightFlush,
 		maxFourOfAKind,
 		maxFullHouse,
@@ -36,11 +36,11 @@ func RankClass(rank int) int {
 	panic(fmt.Sprintf("rank %d is unknown", rank))
 }
 
-func RankString(rank int) string {
+func RankString(rank int32) string {
 	return rankClassToString[RankClass(rank)]
 }
 
-func Evaluate(cards []Card) int {
+func Evaluate(cards []Card) int32 {
 	switch len(cards) {
 	case 5:
 		return five(cards...)
@@ -53,10 +53,10 @@ func Evaluate(cards []Card) int {
 	}
 }
 
-func five(cards ...Card) int {
+func five(cards ...Card) int32 {
 	if cards[0]&cards[1]&cards[2]&cards[3]&cards[4]&0xF000 != 0 {
 		handOR := (cards[0] | cards[1] | cards[2] | cards[3] | cards[4]) >> 16
-		prime := primeProductFromRankBits(int(handOR))
+		prime := primeProductFromRankBits(int32(handOR))
 		return table.FlushLookup[prime]
 	}
 
@@ -64,8 +64,8 @@ func five(cards ...Card) int {
 	return table.UnsuitedLookup[prime]
 }
 
-func six(cards ...Card) int {
-	minimum := maxHighCard
+func six(cards ...Card) int32 {
+	var minimum int32 = maxHighCard
 	targets := make([]Card, len(cards))
 
 	for i := 0; i < len(cards); i++ {
@@ -81,8 +81,8 @@ func six(cards ...Card) int {
 	return minimum
 }
 
-func seven(cards ...Card) int {
-	minimum := maxHighCard
+func seven(cards ...Card) int32 {
+	var minimum int32 = maxHighCard
 	targets := make([]Card, len(cards))
 
 	for i := 0; i < len(cards); i++ {

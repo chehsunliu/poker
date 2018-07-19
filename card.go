@@ -1,16 +1,16 @@
 package poker
 
-type Card int
+type Card int32
 
 var (
-	intRanks [13]int
+	intRanks [13]int32
 	strRanks = "23456789TJQKA"
-	primes   = []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41}
+	primes   = []int32{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41}
 )
 
 var (
-	charRankToIntRank = map[uint8]int{}
-	charSuitToIntSuit = map[uint8]int{
+	charRankToIntRank = map[uint8]int32{}
+	charSuitToIntSuit = map[uint8]int32{
 		's': 1, // spades
 		'h': 2, // hearts
 		'd': 4, // diamonds
@@ -31,7 +31,7 @@ var (
 
 func init() {
 	for i := 0; i < 13; i++ {
-		intRanks[i] = i
+		intRanks[i] = int32(i)
 	}
 
 	for i := range strRanks {
@@ -44,7 +44,7 @@ func NewCard(s string) Card {
 	suitInt := charSuitToIntSuit[s[1]]
 	rankPrime := primes[rankInt]
 
-	bitRank := 1 << uint32(rankInt) << 16
+	bitRank := int32(1) << uint32(rankInt) << 16
 	suit := suitInt << 12
 	rank := rankInt << 8
 
@@ -55,34 +55,34 @@ func (c Card) String() string {
 	return string(strRanks[c.Rank()]) + string(intSuitToCharSuit[c.Suit()])
 }
 
-func (c Card) Rank() int {
-	return (int(c) >> 8) & 0xF
+func (c Card) Rank() int32 {
+	return (int32(c) >> 8) & 0xF
 }
 
-func (c Card) Suit() int {
-	return (int(c) >> 12) & 0xF
+func (c Card) Suit() int32 {
+	return (int32(c) >> 12) & 0xF
 }
 
-func (c Card) BitRank() int {
-	return (int(c) >> 16) & 0x1FFF
+func (c Card) BitRank() int32 {
+	return (int32(c) >> 16) & 0x1FFF
 }
 
-func (c Card) Prime() int {
-	return int(c) & 0x3F
+func (c Card) Prime() int32 {
+	return int32(c) & 0x3F
 }
 
-func primeProductFromHand(cards []Card) int {
-	product := 1
+func primeProductFromHand(cards []Card) int32 {
+	product := int32(1)
 
 	for _, card := range cards {
-		product *= (int(card) & 0xFF)
+		product *= (int32(card) & 0xFF)
 	}
 
 	return product
 }
 
-func primeProductFromRankBits(rankBits int) int {
-	product := 1
+func primeProductFromRankBits(rankBits int32) int32 {
+	product := int32(1)
 
 	for _, i := range intRanks {
 		if rankBits&(1<<uint(i)) != 0 {

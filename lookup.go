@@ -12,7 +12,7 @@ const (
 	maxHighCard      = 7462
 )
 
-var maxToRankClass = map[int]int{
+var maxToRankClass = map[int32]int32{
 	maxStraightFlush: 1,
 	maxFourOfAKind:   2,
 	maxFullHouse:     3,
@@ -24,7 +24,7 @@ var maxToRankClass = map[int]int{
 	maxHighCard:      9,
 }
 
-var rankClassToString = map[int]string{
+var rankClassToString = map[int32]string{
 	1: "Straight Flush",
 	2: "Four of a Kind",
 	3: "Full House",
@@ -37,14 +37,14 @@ var rankClassToString = map[int]string{
 }
 
 type LookupTable struct {
-	FlushLookup    map[int]int
-	UnsuitedLookup map[int]int
+	FlushLookup    map[int32]int32
+	UnsuitedLookup map[int32]int32
 }
 
 func NewLookupTable() *LookupTable {
 	table := &LookupTable{}
-	table.FlushLookup = map[int]int{}
-	table.UnsuitedLookup = map[int]int{}
+	table.FlushLookup = map[int32]int32{}
+	table.UnsuitedLookup = map[int32]int32{}
 
 	table.flushes()
 	table.multiples()
@@ -54,7 +54,7 @@ func NewLookupTable() *LookupTable {
 
 func (table *LookupTable) flushes() {
 	// straight flushes in rank order
-	straightFlushes := []int{
+	straightFlushes := []int32{
 		7936, // 0b1111100000000 royal flush
 		3968, // 0b111110000000
 		1984, // 0b11111000000
@@ -67,8 +67,8 @@ func (table *LookupTable) flushes() {
 		4111, // 0b1000000001111 5 high
 	}
 
-	var flushes []int
-	flush := 31 // 0b11111
+	var flushes []int32
+	var flush int32 = 31 // 0b11111
 
 	for i := 0; i < 1277+len(straightFlushes)-1; i++ {
 		flush = lexographicallyNextBitSequence(flush)
@@ -89,7 +89,7 @@ func (table *LookupTable) flushes() {
 		flushes[i], flushes[j] = flushes[j], flushes[i]
 	}
 
-	rank := 1
+	var rank int32 = 1
 	for _, sf := range straightFlushes {
 		primeProduct := primeProductFromRankBits(sf)
 		table.FlushLookup[primeProduct] = rank
@@ -106,8 +106,8 @@ func (table *LookupTable) flushes() {
 	table.straightAndHighCards(straightFlushes, flushes)
 }
 
-func (table *LookupTable) straightAndHighCards(straights, highcards []int) {
-	rank := maxFlush + 1
+func (table *LookupTable) straightAndHighCards(straights, highcards []int32) {
+	var rank int32 = maxFlush + 1
 
 	for _, s := range straights {
 		primeProduct := primeProductFromRankBits(s)
@@ -124,16 +124,16 @@ func (table *LookupTable) straightAndHighCards(straights, highcards []int) {
 }
 
 func (table *LookupTable) multiples() {
-	backwardRanks := make([]int, len(intRanks))
+	backwardRanks := make([]int32, len(intRanks))
 	for i := range intRanks {
 		backwardRanks[13-i-1] = intRanks[i]
 	}
 
 	// 1) Four of a Kind
-	rank := maxStraightFlush + 1
+	var rank int32 = maxStraightFlush + 1
 
 	for _, i := range backwardRanks {
-		kickers := make([]int, len(backwardRanks))
+		kickers := make([]int32, len(backwardRanks))
 		copy(kickers, backwardRanks)
 
 		for j := 0; j < len(kickers); j++ {
@@ -154,7 +154,7 @@ func (table *LookupTable) multiples() {
 	rank = maxFourOfAKind + 1
 
 	for _, i := range backwardRanks {
-		pairRanks := make([]int, len(backwardRanks))
+		pairRanks := make([]int32, len(backwardRanks))
 		copy(pairRanks, backwardRanks)
 
 		for j := 0; j < len(pairRanks); j++ {
@@ -175,7 +175,7 @@ func (table *LookupTable) multiples() {
 	rank = maxStraight + 1
 
 	for _, i := range backwardRanks {
-		kickers := make([]int, len(backwardRanks))
+		kickers := make([]int32, len(backwardRanks))
 		copy(kickers, backwardRanks)
 
 		for j := 0; j < len(kickers); j++ {
@@ -202,7 +202,7 @@ func (table *LookupTable) multiples() {
 		for j := i + 1; j < len(backwardRanks); j++ {
 			pair1, pair2 := backwardRanks[i], backwardRanks[j]
 
-			kickers := make([]int, len(backwardRanks))
+			kickers := make([]int32, len(backwardRanks))
 			copy(kickers, backwardRanks)
 
 			for k := 0; k < len(kickers); k++ {
@@ -231,7 +231,7 @@ func (table *LookupTable) multiples() {
 	rank = maxTwoPair + 1
 
 	for _, pairRank := range backwardRanks {
-		kickers := make([]int, len(backwardRanks))
+		kickers := make([]int32, len(backwardRanks))
 		copy(kickers, backwardRanks)
 
 		for k := 0; k < len(kickers); k++ {
@@ -257,7 +257,7 @@ func (table *LookupTable) multiples() {
 // LexographicallyNextBitSequence calculates the next permutation of
 // bits in a lexicographical sense. The algorithm comes from
 // https://graphics.stanford.edu/~seander/bithacks.html#NextBitPermutation.
-func lexographicallyNextBitSequence(bits int) int {
+func lexographicallyNextBitSequence(bits int32) int32 {
 	t := (bits | (bits - 1)) + 1
 	return t | ((((t & -t) / (bits & -bits)) >> 1) - 1)
 }
