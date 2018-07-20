@@ -2,55 +2,19 @@
 
 [![GoDoc](https://godoc.org/github.com/chehsunliu/poker?status.svg)](https://godoc.org/github.com/chehsunliu/poker)
 
-This package is ported from the Python library [worldveil/deuces](https://github.com/worldveil/deuces).
+Poker is ported from the Python library [worldveil/deuces](https://github.com/worldveil/deuces).
 
 ## Installation
 
-Use `go get` to install poker:
+Use `go get` to install Poker:
 
 ```sh
 $ go get github.com/chehsunliu/poker
 ```
 
-## Example
+## Usage
 
-Evaluate five cards:
-
-```go
-package main
-
-import (
-	"fmt"
-
-	"github.com/chehsunliu/poker"
-)
-
-func main() {
-	board := []poker.Card{
-		poker.NewCard("Ah"),
-		poker.NewCard("Kd"),
-		poker.NewCard("Jc"),
-	}
-	hand := []poker.Card{
-		poker.NewCard("Qs"),
-		poker.NewCard("Th"),
-	}
-	fmt.Println(board, hand)
-
-	rank := poker.Evaluate(append(board, hand...))
-	fmt.Println(rank)
-	fmt.Println(poker.RankString(rank))
-}
-```
-
-```sh
-$ go run ./main.go
-[Ah Kd Jc] [Qs Th]
-1600
-Straight
-```
-
-Evaluate seven cards:
+Support 5-, 6-, and 7-card evalutions:
 
 ```go
 package main
@@ -77,4 +41,23 @@ $ go run ./main.go
 [4c Qh Ad 9c 9s 3h 4d]
 3062
 Two Pair
+```
+
+## Performance
+
+Compared with [notnil/joker](https://github.com/notnil/joker), Poker is 180x faster on 5-card evaluation, and drops to 50x faster on 7-card evaluation.
+
+```sh
+$ go test -bench=. -benchtime 5s
+goos: darwin
+goarch: amd64
+pkg: github.com/chehsunliu/poker
+BenchmarkFivePoker-4            20000000               280 ns/op
+BenchmarkFiveJoker-4              100000             50769 ns/op
+BenchmarkSixPoker-4              3000000              2428 ns/op
+BenchmarkSixJoker-4                30000            272321 ns/op
+BenchmarkSevenPoker-4             300000             20317 ns/op
+BenchmarkSevenJoker-4               5000           1062044 ns/op
+PASS
+ok      github.com/chehsunliu/poker     43.996s
 ```
