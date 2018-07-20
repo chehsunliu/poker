@@ -38,9 +38,19 @@ func main() {
 
 ```sh
 $ go run ./main.go
+[Kd 4h Qh 3s 8s 5h Jd]
+6695
+High Card
+
+$ go run ./main.go
 [4c Qh Ad 9c 9s 3h 4d]
 3062
 Two Pair
+
+$ go run ./main.go
+[Jh Qd Kd Qs 7d As Qh]
+1742
+Three of a Kind
 ```
 
 ## Performance
