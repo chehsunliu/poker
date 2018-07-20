@@ -14,7 +14,7 @@ $ go get github.com/chehsunliu/poker
 
 ## Example
 
-`demo1.go`:
+Evaluate five cards:
 
 ```go
 package main
@@ -44,13 +44,13 @@ func main() {
 ```
 
 ```sh
-$ go run ./demo1.go
+$ go run ./main.go
 [Ah Kd Jc] [Qs Th]
 1600
 Straight
 ```
 
-`demo2.go`:
+Evaluate seven cards:
 
 ```go
 package main
@@ -73,7 +73,7 @@ func main() {
 ```
 
 ```sh
-$ go run ./demo2.go
+$ go run ./main.go
 [4c Qh Ad 9c 9s 3h 4d]
 3062
 Two Pair
