@@ -1,6 +1,6 @@
 # Poker
 
-(https://godoc.org/github.com/chehsunliu/poker?status.svg)](https://godoc.org/github.com/chehsunliu/poker)
+[![GoDoc](https://godoc.org/github.com/chehsunliu/poker?status.svg)](https://godoc.org/github.com/chehsunliu/poker)
 
 This package is ported from the Python library [worldveil/deuces](https://github.com/worldveil/deuces).
 
