@@ -51,6 +51,15 @@ func NewCard(s string) Card {
 	return Card(bitRank | suit | rank | rankPrime)
 }
 
+func (c *Card) MarshalJSON() ([]byte, error) {
+	return []byte("\"" + c.String() + "\""), nil
+}
+
+func (c *Card) UnmarshalJSON(b []byte) error {
+	*c = NewCard(string(b[1:3]))
+	return nil
+}
+
 func (c Card) String() string {
 	return string(strRanks[c.Rank()]) + string(intSuitToCharSuit[c.Suit()])
 }

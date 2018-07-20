@@ -8,6 +8,18 @@
   version = "v1.1.0"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/loganjspears/joker"
+  packages = ["hand"]
+  revision = "3f2f69a75914c1af9b9949c1718b63da40ca1b19"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/notnil/joker"
+  packages = ["util"]
+  revision = "3f2f69a75914c1af9b9949c1718b63da40ca1b19"
+
+[[projects]]
   name = "github.com/pmezard/go-difflib"
   packages = ["difflib"]
   revision = "792786c7400a136282c1664665ae0a8db921c6c2"
@@ -22,6 +34,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "a3f0936778bf7527e2d281c9627a81eef5b758c989349ae8b3e3d62e2a720880"
+  inputs-digest = "14d100d331065746c26b8b49d803d570cf37f058b48f9ced61f3e0ac69ea56f4"
   solver-name = "gps-cdcl"
   solver-version = 1
