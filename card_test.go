@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"encoding/json"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -15,6 +16,33 @@ func TestRankIntegers(t *testing.T) {
 func TestNewCard(t *testing.T) {
 	assert.Equal(t, Card(268446761), NewCard("Ah"))
 	assert.Equal(t, Card(134224677), NewCard("Ks"))
+}
+
+func TestMarshalJSON(t *testing.T) {
+	cards := []Card{
+		NewCard("Ah"),
+		NewCard("Kh"),
+		NewCard("Qh"),
+		NewCard("Jh"),
+		NewCard("Th"),
+	}
+
+	b, err := json.Marshal(cards)
+	assert.NoError(t, err)
+	assert.Equal(t, `["Ah","Kh","Qh","Jh","Th"]`, string(b))
+}
+
+func TestUnmarshalJSON(t *testing.T) {
+	var cards []Card
+	data := `["Ah","Kh","Qh","Jh","Th"]`
+
+	err := json.Unmarshal([]byte(data), &cards)
+	assert.NoError(t, err)
+	assert.Contains(t, cards, NewCard("Ah"))
+	assert.Contains(t, cards, NewCard("Kh"))
+	assert.Contains(t, cards, NewCard("Qh"))
+	assert.Contains(t, cards, NewCard("Jh"))
+	assert.Contains(t, cards, NewCard("Th"))
 }
 
 func TestString(t *testing.T) {
