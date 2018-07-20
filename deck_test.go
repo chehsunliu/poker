@@ -29,3 +29,14 @@ func TestDraw(t *testing.T) {
 	deck.Draw(52 - 5)
 	assert.True(t, deck.Empty())
 }
+
+func TestEmpty(t *testing.T) {
+	deck := NewDeck()
+	assert.False(t, deck.Empty())
+
+	deck.Draw(51)
+	assert.False(t, deck.Empty())
+
+	deck.Draw(1)
+	assert.True(t, deck.Empty())
+}
