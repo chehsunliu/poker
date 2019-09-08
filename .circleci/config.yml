@@ -1,0 +1,20 @@
+version: 2
+
+jobs:
+  test:
+    docker:
+      - image: circleci/golang:1.13
+    steps:
+      - checkout
+      - run:
+          name: Run the testing
+          command: make test
+      - run:
+          name: Upload coverage data to Codecov
+          command: bash <(curl -s https://codecov.io/bash)
+
+workflows:
+  version: 2
+  commit-pipeline:
+    jobs:
+      - test
