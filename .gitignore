@@ -1,5 +1,5 @@
-.coverprofile
-.coverprofile.html
+coverage.txt
+coverage.html
 
 # Created by https://www.gitignore.io/api/macos,windows,linux,vim,jetbrains
 # Edit at https://www.gitignore.io/?templates=macos,windows,linux,vim,jetbrains

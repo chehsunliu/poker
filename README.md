@@ -1,6 +1,6 @@
 # Poker
 
-[![GoDoc](https://godoc.org/github.com/chehsunliu/poker?status.svg)](https://godoc.org/github.com/chehsunliu/poker)
+[![CircleCI](https://circleci.com/gh/chehsunliu/poker/tree/master.svg?style=shield&circle-token=abebd63b852ce8ecdcdf3f7e597be743d07402e4)](https://circleci.com/gh/chehsunliu/poker/tree/master) [![GoDoc](https://godoc.org/github.com/chehsunliu/poker?status.svg)](https://godoc.org/github.com/chehsunliu/poker) [![codecov](https://codecov.io/gh/chehsunliu/poker/branch/master/graph/badge.svg)](https://codecov.io/gh/chehsunliu/poker)
 
 Poker is ported from the Python library [worldveil/deuces](https://github.com/worldveil/deuces).
 

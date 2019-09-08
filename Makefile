@@ -1,7 +1,7 @@
 .PHONY: test
 test:
-	go test -coverprofile .coverprofile -timeout 10m ./...
-	go tool cover -html .coverprofile -o .coverprofile.html
+	go test -race -coverprofile=coverage.txt -covermode=atomic -timeout=10m ./...
+	go tool cover -html coverage.txt -o coverage.html
 
 .PHONY: benchmark
 benchmark:
